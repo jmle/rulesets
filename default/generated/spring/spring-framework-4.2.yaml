@@ -1,0 +1,72 @@
+- ruleID: spring-framework-4.2-00001
+  description: Spring Reactor support is based on Reactor 2.0 now
+  effort: 1
+  category: mandatory
+  labels:
+    - konveyor.io/source=spring3
+    - konveyor.io/source=spring4
+    - konveyor.io/target=spring4.2
+    - konveyor.io/target=spring5
+    - spring
+  message: |-
+    Spring's Reactor support is based on Reactor 2.0 now. Please upgrade the dependency.
+  when:
+    java.dependency:
+      name: org.projectreactor.reactor-core
+      upperbound: 1.1.6.RELEASE
+  customVariables: []
+  links:
+    - title: Upgrading to Spring Framework 4.x
+      url: https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-4.x#upgrading-to-version-41
+
+- ruleID: spring-framework-4.2-00002
+  description: Support for Apache Tiles 2.2 is deprecated
+  effort: 1
+  category: optional
+  labels:
+    - konveyor.io/source=spring3
+    - konveyor.io/source=spring4
+    - konveyor.io/target=spring4.2
+    - konveyor.io/target=spring5
+    - spring
+  message: |-
+    Support for Apache Tiles 2.2 is deprecated in favor of Tiles 3.0.
+  when:
+    java.dependency:
+      nameregex: org.apache.tiles.tiles-core
+      upperbound: 2.2.2
+  customVariables: []
+  links:
+    - title: Upgrading to Spring Framework 4.x
+      url: https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-4.x#upgrading-to-version-41
+
+- ruleID: spring-framework-4.2-00003
+  description: HTTP cache header processing has changed in Spring 4.2
+  effort: 1
+  category: potential
+  labels:
+    - konveyor.io/source=spring3
+    - konveyor.io/source=spring4
+    - konveyor.io/target=spring4.2
+    - konveyor.io/target=spring5
+    - spring
+  message: |-
+    Spring Framework 4.2 comes with revised HTTP cache header processing for resource handling;
+    for common use cases, HTTP caching related headers now have new defaults which do not involve
+    HTTP 1.0 headers such as "Expires" or "Pragma". See links for more information.
+  when:
+    or:
+    - java.referenced:
+        pattern: org.springframework.web.servlet.support.WebContentGenerator.setCacheSeconds
+    - builtin.filecontent:
+        filepattern: "(.*\.java|.*\.xml)"
+        pattern: "Cache-Control"
+  customVariables: []
+  links:
+    - title: Upgrading to Spring Framework 4.x
+      url: https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-4.x#upgrading-to-version-41
+    - title: WebContentGenerator javadocs
+      url: https://docs.spring.io/spring-framework/docs/4.2.0.RELEASE/javadoc-api/index.html?org/springframework/web/servlet/support/WebContentGenerator.html
+    - title: CacheControl javadocs
+      url: https://docs.spring.io/spring-framework/docs/4.2.0.RELEASE/javadoc-api/index.html?org/springframework/http/CacheControl.html
+

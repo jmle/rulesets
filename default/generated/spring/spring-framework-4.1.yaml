@@ -1,0 +1,37 @@
+- ruleID: spring-framework-4.1-00001
+  description: Dependencies must be in supported range for Spring 4.1
+  effort: 1
+  category: mandatory
+  labels:
+    - konveyor.io/source=spring3
+    - konveyor.io/source=spring4
+    - konveyor.io/target=spring4.1
+    - konveyor.io/target=spring5
+    - spring
+  message: |-
+    As of Spring Framework 4.1, several optional dependencies are required to be within
+    the supported range: in particular, EhCache 2.5+, Quartz 2.1.4+, Jackson 2.1+, and ROME 1.5+.
+    Also, Apache HTTP Components HttpClient must be 4.3+.
+  when:
+    or:
+      - java.dependency:
+          upperbound: 2.4.8
+          name: net.sf.ehcache.ehcache-core
+      - java.dependency:
+          upperbound: 2.1.3
+          name: org.quartz-scheduler.quartz
+      - java.dependency:
+          upperbound: 2.0.6
+          nameregex: com\.fasterxml\.jackson\.core.*
+#      ROME only seems to start on 1.5.0?
+#      - java.dependency:
+#          upperbound: "1.5"
+#          nameregex: com\.rometools\.rome.*
+      - java.dependency:
+          upperbound: 4.2.6
+          nameregex: org.apache.httpcomponents.httpclient
+
+  customVariables: []
+  links:
+    - title: Upgrading to Spring Framework 4.x
+      url: https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-4.x#upgrading-to-version-41
