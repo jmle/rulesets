@@ -1,5 +1,27 @@
 - category: mandatory
   customVariables:
+    - name: methodName
+      nameOfCaptureGroup: methodName
+      pattern: java.lang.System.(?P<methodName>(getSecurityManager|setSecurityManager))?(.*)
+  description: The methods 'getSecurityManager' and 'setSecurityManager' under java.lang.System have been deprecated since Java 17.
+  effort: 5
+  labels:
+    - konveyor.io/source=openjdk11-
+    - konveyor.io/source=openjdk
+    - konveyor.io/target=openjdk17+
+    - konveyor.io/target=openjdk
+  links:
+    - title: 'JEP 411: Deprecate the Security Manager for Removal'
+      url: https://openjdk.org/jeps/411
+  message: "The java.lang.System::getSecurityManager and java.lang.System::setSecurityManager
+    methods have been deprecated in Java 17. \n See the link for further information."
+  ruleID: security-manager-deprecation-00020
+  when:
+    java.referenced:
+      location: METHOD_CALL
+      pattern: java.lang.System.(getSecurityManager|setSecurityManager)(*)
+- category: mandatory
+  customVariables:
   - name: className
     nameOfCaptureGroup: className
     pattern: java.security.(?P<className>(AccessController|AccessControlContext|AccessControlException|DomainCombiner|Policy|PolicySpi|Policy.Parameters))
@@ -42,28 +64,6 @@
   when:
     java.referenced:
       pattern: (java.lang.SecurityManager|java.rmi.RMISecurityManager|javax.security.auth.SubjectDomainCombiner)
-- category: mandatory
-  customVariables:
-  - name: methodName
-    nameOfCaptureGroup: methodName
-    pattern: java.lang.System.(?P<methodName>(getSecurityManager|setSecurityManager))?(.*)
-  description: The methods 'getSecurityManager' and 'setSecurityManager' under java.lang.System have been deprecated since Java 17.
-  effort: 5
-  labels:
-  - konveyor.io/source=openjdk11-
-  - konveyor.io/source=openjdk
-  - konveyor.io/target=openjdk17+
-  - konveyor.io/target=openjdk
-  links:
-  - title: 'JEP 411: Deprecate the Security Manager for Removal'
-    url: https://openjdk.org/jeps/411
-  message: "The java.lang.System::getSecurityManager and java.lang.System::setSecurityManager
-    methods have been deprecated in Java 17. \n See the link for further information."
-  ruleID: security-manager-deprecation-00020
-  when:
-    java.referenced:
-      location: METHOD_CALL
-      pattern: java.lang.System.(getSecurityManager|setSecurityManager)(*)
 - category: mandatory
   customVariables: []
   description: java.lang.Thread.checkAccess method has been deprecated
