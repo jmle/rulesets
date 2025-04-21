@@ -19,7 +19,7 @@
   when:
     java.referenced:
       location: METHOD_CALL
-      pattern: java.lang.System.(getSecurityManager|setSecurityManager)(*)
+      pattern: java.lang.System.(getSecurityManager|setSecurityManager)
 - category: mandatory
   customVariables:
   - name: className
